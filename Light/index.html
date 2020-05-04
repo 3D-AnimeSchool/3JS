@@ -33,6 +33,7 @@ Check below Link for help on GLTF LOADER
   var geometry = new THREE.SphereBufferGeometry(0.1,16,8);
   var material = new THREE.MeshBasicMaterial({color:0x50ff24});
   var object = new THREE.Mesh(geometry,material);
+  var color = new THREE.Color(0xfe81de);
   // var sphereSize = 1;
   // var pointLightHelper = new THREE.PointLightHelper(pointLight,sphereSize);
 
@@ -47,7 +48,7 @@ Check below Link for help on GLTF LOADER
 //-------------------------------------------
   //scene.add(grid);
   scene.add(ambientlight,pointLight); //Add ambientlight to scene
-  scene.background(new THREE.Color(0xfe81de));
+  scene.background = color;
 
   camera.position.set(0,4,6);
   pointLight.add(object);
