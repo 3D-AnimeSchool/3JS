@@ -1,0 +1,95 @@
+<!--
+Check below Link for help on GLTF LOADER
+ https://stackoverflow.com/questions/30147002/three-object3d-add-object-not-an-instance-of-three-object3d/55931872#55931872 -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>test</title>
+    <style>
+      body { margin: 0; }
+      canvas { display: block; }
+    </style>
+
+  </head>
+  <body>
+
+
+  <script src="js/three.js"></script>
+  <script src="js/OrbitControls.js"></script>
+  <script src="js/GLTFLoader.js"> </script>
+
+
+  <script>
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera (65,window.innerWidth/window.innerHeight,0.25,20);
+  var renderer = new THREE.WebGLRenderer();
+  var controls = new THREE.OrbitControls(camera,renderer.domElement);
+//-------------------------------------------
+
+  var ambientlight = new THREE.AmbientLight(0x50ff24,2); //declare AmbientLight
+  var pointLight = new THREE.PointLight(0x50ff24,5,5);
+  var geometry = new THREE.SphereBufferGeometry(0.1,16,8);
+  var material = new THREE.MeshBasicMaterial({color:0x50ff24});
+  var object = new THREE.Mesh(geometry,material);
+  // var sphereSize = 1;
+  // var pointLightHelper = new THREE.PointLightHelper(pointLight,sphereSize);
+
+  //var grid = new THREE.GridHelper(30,30,0x0c71e0,0x0c71e0);
+
+
+  var loader = new THREE.GLTFLoader();
+  var importObject = new THREE.Object3D();
+  var importObject1 = new THREE.Object3D();
+
+
+//-------------------------------------------
+  //scene.add(grid);
+  scene.add(ambientlight,pointLight); //Add ambientlight to scene
+
+  camera.position.set(0,4,6);
+  pointLight.add(object);
+  pointLight.position.set(0,5,2);
+
+
+  renderer.setSize(window.innerWidth,window.innerHeight);
+
+  controls.minDistance = 6;
+  controls.maxDistance = 7;
+	//controls.autoRotate = true;
+
+
+
+
+  loader.load("/assets/cube.glb",function ( gltf ) {
+  importObject = gltf.scene;
+  // scene.add(importObject);
+  importObject.position.set(0,1,0);
+	scene.add(importObject);
+   },
+);
+
+loader.load("/assets/bg1.glb",function ( gltf1 ) {
+importObject1 = gltf1.scene;
+// scene.add(importObject);
+//importObject.position.set(0,1,0);
+scene.add(importObject1);
+ },
+);
+
+
+//-------------------------------------------
+  function animate(){
+    requestAnimationFrame(animate);
+    controls.update();
+		importObject.rotation.y += 0.01;
+    renderer.render(scene,camera);
+        }
+  animate();
+
+  document.body.appendChild(renderer.domElement);
+
+  </script>
+  </body>
+</html>
